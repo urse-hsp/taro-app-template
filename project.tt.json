@@ -1,6 +1,6 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "dongya-app",
+  "projectname": "template-app",
   "appid": "touristappid",
   "setting": {
     "es6": false,

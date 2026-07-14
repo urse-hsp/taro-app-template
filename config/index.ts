@@ -1,12 +1,24 @@
 import { defineConfig, type UserConfigExport } from '@tarojs/cli'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import devConfig from './dev'
+import preConfig from './pre'
 import prodConfig from './prod'
+
+const path = require('path')
+
+const envMap = {
+  development: devConfig,
+  pre: preConfig,
+  production: prodConfig,
+}
+// 获取当前环境变量
+const currentEnv = process.env.NODE_ENV || 'development'
+console.info(`当前环境变量:${currentEnv}`)
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
-    projectName: 'dongya-app',
+    projectName: 'template-app',
     date: '2026-7-10',
     designWidth: 750,
     deviceRatio: {
@@ -16,7 +28,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       828: 1.81 / 2
     },
     sourceRoot: 'src',
-    outputRoot: 'dist',
+    outputRoot: `dist/${process.env.TARO_ENV}`, // 多端同步调试/各个平台使用独立的目录互不影响
     plugins: ['@tarojs/plugin-platform-xhs'],
     defineConstants: {
     },
@@ -27,7 +39,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       }
     },
     framework: 'react',
-    // compiler: 'webpack5',
     compiler: {
       type: 'webpack5',
       prebundle: {
@@ -37,7 +48,32 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
+    // alias 目录别名，从而方便书写代码引用路径
+    alias: {
+      '@': path.resolve(__dirname, '../src'),
+      '~@': path.resolve(__dirname, './'),
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(png|jpe?g|gif|svg)$/i,
+          type: 'asset/resource', // 适用于 Webpack 5+
+        },
+      ],
+    },
     mini: {
+      // 开启智能提取分包依赖
+      optimizeMainPackage: {
+        enable: true,
+        exclude: [
+          path.resolve(__dirname, '../src/utils/moduleName.js'),
+          (module) => module.resource?.indexOf('moduleName') >= 0,
+        ],
+      },
+      miniCssExtractPluginOption: {
+        ignoreOrder: true, // 💥 忽略 CSS 顺序冲突
+      },
+
       postcss: {
         pxtransform: {
           enable: true,
@@ -108,10 +144,15 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       }
     }
   }
-  if (process.env.NODE_ENV === 'development') {
-    // 本地开发构建配置（不混淆压缩）
-    return merge({}, baseConfig, devConfig)
-  }
+
+  // if (process.env.NODE_ENV === 'development') {
+  //   // 本地开发构建配置（不混淆压缩）
+  //   return merge({}, baseConfig, devConfig)
+  // }
   // 生产构建配置（默认开启压缩混淆等）
-  return merge({}, baseConfig, prodConfig)
+  // return merge({}, baseConfig, prodConfig)
+
+  // dev本地开发构建配置（不混淆压缩）
+  // pre/pro生产构建配置（默认开启压缩混淆等）
+  return merge({}, baseConfig, envMap[currentEnv])
 })
