@@ -1,0 +1,32 @@
+{
+	"miniprogramRoot": "dist/",
+	"projectname": "weapp",
+	"description": "weapp",
+	"appid": "",
+	"libVersion": "3.7.11",
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"enhance": false,
+		"compileHotReLoad": false,
+		"postcss": true,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"coverView": true,
+		"showShadowRootInWxmlPanel": false,
+		"scopeDataCheck": false,
+		"useCompilerModule": false,
+		"bigPackageSizeSupport": true
+	},
+	"compileType": "miniprogram",
+	"ignoreUploadUnusedFiles": true,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"miniprogram": {
+			"list": []
+		}
+	}
+}
