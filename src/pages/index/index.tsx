@@ -1,23 +1,25 @@
-import { Component, PropsWithChildren } from 'react'
-import { View, Text } from '@tarojs/components'
+import {Component, PropsWithChildren} from 'react';
+import {View, Text} from '@tarojs/components';
 
-import './index.scss'
+import style from './index.module.scss'
+// import './index.scss'
 
 export default class Index extends Component<PropsWithChildren> {
+  componentDidMount() {}
 
-  componentDidMount () { }
+  componentWillUnmount() {}
 
-  componentWillUnmount () { }
+  componentDidShow() {}
 
-  componentDidShow () { }
+  componentDidHide() {}
 
-  componentDidHide () { }
+  render() {
+    // console.log('🔍 STYLE OBJECT:', JSON.stringify(style)); // ← 加这一行
 
-  render () {
     return (
-      <View className='index'>
-        <Text>Hello world!</Text>
+      <View className={style['index']}>
+        <Text className={style['text']}>Hello world!</Text>
       </View>
-    )
+    );
   }
 }

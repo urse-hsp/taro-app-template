@@ -7,5 +7,11 @@ module.exports = {
       ts: true,
       compiler: 'webpack5',
     }]
-  ]
+  ], 
+  plugins: [
+
+    // ⚠️ 关键：通过环境变量判断，仅在 RN 端加载此插件
+    process.env.TARO_ENV === 'rn' &&
+    'babel-plugin-transform-react-jsx-to-rn-stylesheet'
+  ].filter(Boolean)
 }

@@ -1,9 +1,9 @@
 .index {
-  height: 100%;
+  // height: 100%;
   background-color: yellow; // ✅ View 背景色生效
-  // color: red;         // ❌ 对子级 Text 无效
-}
 
-.text {
+  .text {
   color: red;            // ✅ Text 颜色必须显式声明
 }
+}
+

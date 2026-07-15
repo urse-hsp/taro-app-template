@@ -29,7 +29,9 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     },
     sourceRoot: 'src',
     outputRoot: `dist/${process.env.TARO_ENV}`, // 多端同步调试/各个平台使用独立的目录互不影响
-    plugins: ['@tarojs/plugin-platform-xhs'],
+    plugins: [
+      '@tarojs/plugin-platform-xhs',
+    ],
     defineConstants: {
     },
     copy: {
@@ -82,7 +84,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           }
         },
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
             namingPattern: 'module', // 转换模式，取值为 global/module
             generateScopedName: '[name]__[local]___[hash:base64:5]'
@@ -139,7 +141,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
       postcss: {
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         }
       }
     }
