@@ -1,9 +1,10 @@
+@import '@/styles/theme.scss';
+
 .index {
   // height: 100%;
-  background-color: yellow; // ✅ View 背景色生效
+  background-color: yellow; // View 背景色生效
 
-  .text {
-  color: red;            // ✅ Text 颜色必须显式声明
+  &-text {
+    color: $color-primary; // Text 颜色必须显式声明
+  }
 }
-}
-
